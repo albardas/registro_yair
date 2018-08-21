@@ -25,8 +25,11 @@ switch ($_GET['op']) {
                     "3" => $reg->phone,
                     "4" => $reg->gender,
                     "5" => $reg->city,
-                    "6" => '<button class="btn btn-warning btn-sm" onclick="edit(' . $reg->id . ')">Editar</button>
-						<button class="btn btn-danger btn-sm" onclick="eliminar(' . $reg->id . ')">Eliminar</button>'
+                    "6" => $reg->date,
+                    "7" => $reg->time,
+                    "8" => $reg->description,
+                    "9" => '<button class="btn btn-warning btn-sm" onclick="edit_assitan(' . $reg->id . ')">Editar</button>
+						<button class="btn btn-danger btn-sm" onclick="eliminar_assitan(' . $reg->id . ')">Eliminar</button>'
                 );
             }
             $results = array(
@@ -48,8 +51,9 @@ switch ($_GET['op']) {
         $city = $_POST['municipio'].', '.$_POST['estado'];
         $date =  date('Y-m-d');
         $time = date('H:m:s');
-        $sql = "INSERT INTO assitans (`name`, `last_name`, `email`, `password`, `phone`, `gender`, `city`) VALUES
-                            ('$name', '$last_name', '$email', '$phone', '$gender', '$city', '$date', '$time')";
+        $description = (!empty($_POST['description']))? $_POST['description'] : 'no hay descripcion disponible';
+        $sql = "INSERT INTO `assitans`(`id_user`, `name`, `last_name`, `email`, `phone`, `gender`, `city`, `date`, `time`, `description`) VALUES
+                            ('".$_SESSION['id_user']."','$name', '$last_name', '$email', '$phone', '$gender', '$city', '$date', '$time','$description')";
         $rspta = $conn->prepare($sql);
         $rspta->execute();
         if ($rspta) {
@@ -75,8 +79,11 @@ switch ($_GET['op']) {
         $last_name = $_POST['last_name'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
-        $password = $_POST['password'];
-        $sql = "UPDATE  assitans SET `name`='$name', `last_name`='$last_name', `email`='$email', `password`='$password', `phone`='$phone' WHERE id = '$id' ";
+        $gender = $_POST['gender'];
+        $city = $_POST['municipio'] . ', ' . $_POST['estado'];
+        $description = (!empty($_POST['description'])) ? $_POST['description'] : 'no hay descripcion disponible';
+        $sql = "UPDATE  assitans SET `name`='$name', `last_name`='$last_name', `email`='$email',
+                                    `phone`='$phone', `gender`='$gender', `city`='$city', `description`='$description' WHERE id = '$id' ";
         $rspta = $conn->prepare($sql);
         $rspta->execute();
         if ($rspta) {

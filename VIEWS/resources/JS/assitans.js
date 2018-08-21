@@ -18,20 +18,20 @@ function listarAsistentes() {
                 extend: 'excelHtml5',
                 text: '<strong><i class="fa fa-file-excel-o"></i> Excel</strong>',
                 className: 'btn btn-success',
-                title: "Reporte de Plantillas",
-                // exportOptions: {
-                // columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-                // },
+                title: "Reporte de Invitados",
+                exportOptions: {
+                columns: [ 0, 1, 2, 3, 4, 5, 6,7,8 ]
+                },
                 titleAttr: 'Excel'
             },
             {
                 extend: 'pdfHtml5',
                 text: '<strong><i class="fa fa-file-pdf-o"></i> PDF</strong>',
                 className: 'btn btn-danger',
-                title: "Reporte de Plantillas",
-                // exportOptions: {
-                //   columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-                // },
+                title: "Reporte de Invitados",
+                exportOptions: {
+                  columns: [ 0, 1, 2, 3, 4, 5, 6,7,8 ]
+                },
                 titleAttr: 'PDF'
             }
         ],
@@ -61,7 +61,7 @@ function listarAsistentes() {
 }
 listarAsistentes();
 
-function crear(e, form) {
+function crear_assitan(e, form) {
     e.preventDefault();
     datos = new FormData($(form)[0]);
     $.ajax({
@@ -74,7 +74,7 @@ function crear(e, form) {
         contentType: false,
         processData: false,
         success: function (data) {
-            tablaUsuarios.ajax.reload();
+            tablaAsistentes.ajax.reload();
             setTimeout(function () {
                 if (data.success) {
                     $("#new_assitan").modal("hide");
@@ -103,28 +103,29 @@ function crear(e, form) {
 
 
 // edit
-function edit(id) {
-    $("#edit_user #frm_edit_user")[0].reset();
-    $.post(dominio + 'controllers_ajax/users.php?op=edit', { id: id }, function (data) {
+function edit_assitan(id) {
+    $("#edit_assitan #frm_edit_assitan")[0].reset();
+    $.post(dominio + 'controllers_ajax/assitans.php?op=edit', { id: id }, function (data) {
         /*optional stuff to do after success */
         data = JSON.parse(data);
         // console.log(data);
-        $("#edit_user #id").val(data.id);
-        $("#edit_user #nombre_edit").val(data.name);
-        $("#edit_user #apellidos_edit").val(data.last_name);
-        $("#edit_user #email_edit").val(data.email);
-        $("#edit_user #telefono_edit").val(data.phone);
-        $("#edit_user #password_edit").val(data.password);
-        $("#edit_user").modal('show');
+        $("#edit_assitan #id").val(data.id);
+        $("#edit_assitan #nombre_edit").val(data.name);
+        $("#edit_assitan #apellidos_edit").val(data.last_name);
+        $("#edit_assitan #email_edit").val(data.email);
+        $("#edit_assitan #telefono_edit").val(data.phone);
+        $("#edit_assitan #gender_edit").val(data.gender);
+        $("#edit_assitan #description_edit").val(data.description);
+        $("#edit_assitan").modal('show');
     });
 }
 
 // Update
-function update(e, form_upd) {
+function update_assitan(e, form_upd) {
     e.preventDefault();
     datos = new FormData($(form_upd)[0]);
     $.ajax({
-        url: dominio + 'controllers_ajax/users.php?op=update',
+        url: dominio + 'controllers_ajax/assitans.php?op=update',
         type: 'post',
         dataType: 'json',
         encode: true,
@@ -133,7 +134,7 @@ function update(e, form_upd) {
         contentType: false,
         processData: false,
         success: function (data) {
-            tablaUsuarios.ajax.reload();
+            tablaAsistentes.ajax.reload();
             setTimeout(function () {
                 if (data.success) {
                     swal({
@@ -153,15 +154,15 @@ function update(e, form_upd) {
                     })
                 }
             }, 500);
-            $("#frm_edit_user")[0].reset();
+            $("#frm_edit_assitan")[0].reset();
         }
     })
 }
 
 // Delete
-function eliminar(id) {
+function eliminar_assitan(id) {
     swal({
-        title: 'Estas seguro de eliminar este Usuario?',
+        title: 'Estas seguro de eliminar este Invitado?',
         text: "esta accion no se puede revertir!",
         type: 'warning',
         showCancelButton: true,
@@ -170,7 +171,7 @@ function eliminar(id) {
         reverseButtons: true
     }).then((result) => {
         if (result.value) {
-            $.post(dominio + 'controllers_ajax/users.php?op=delete', { id: id }, function (data) {
+            $.post(dominio + 'controllers_ajax/assitans.php?op=delete', { id: id }, function (data) {
                 /*optional stuff to do after success */
                 data = JSON.parse(data);
                 if (data.success) {
@@ -181,7 +182,7 @@ function eliminar(id) {
                         showConfirmButton: false,
                         timer: 1500
                     })
-                    tablaUsuarios.ajax.reload();
+                    tablaAsistentes.ajax.reload();
                 } else {
                     swal({
                         position: 'top-end',
@@ -214,10 +215,14 @@ function states() {
         success: function (data) {
             $("#estado").html(data);
             $("#estado").selectpicker('refresh');
+            $("#estado_edit").html(data);
+            $("#estado_edit").selectpicker('refresh');
         }
     }).done(function (data) {
         $("#estado").html(data);
         $("#estado").selectpicker('refresh');
+        $("#estado_edit").html(data);
+        $("#estado_edit").selectpicker('refresh');
     });
 }
 states();
@@ -231,5 +236,17 @@ $("#estado").change(function () {
     }).done(function (data) {
         $("#municipio").html(data);
         $("#municipio").selectpicker('refresh');
+    });
+});
+
+$("#estado_edit").change(function () {
+    var estado = $("#estado_edit option:selected").val();
+    $.ajax({
+        type: "POST",
+        url: dominio + "controllers_ajax/assitans.php?op=procedencia",
+        data: { estado: estado }
+    }).done(function (data) {
+        $("#municipio_edit").html(data);
+        $("#municipio_edit").selectpicker('refresh');
     });
 });

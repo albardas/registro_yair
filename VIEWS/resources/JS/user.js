@@ -18,20 +18,20 @@ function listarUsuarios() {
               extend: 'excelHtml5',
               text: '<strong><i class="fa fa-file-excel-o"></i> Excel</strong>',
               className: 'btn btn-success',
-              title: "Reporte de Plantillas",
-              // exportOptions: {
-              // columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-              // },
+              title: "Reporte de Usuarios",
+              exportOptions: {
+              columns: [ 0, 1, 2, 3, 4 ]
+              },
               titleAttr: 'Excel'
             },
             {
               extend: 'pdfHtml5',
               text: '<strong><i class="fa fa-file-pdf-o"></i> PDF</strong>',
               className: 'btn btn-danger',
-              title: "Reporte de Plantillas",
-              // exportOptions: {
-              //   columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-              // },
+              title: "Reporte de Usuarios",
+              exportOptions: {
+                columns: [ 0, 1, 2, 3, 4 ]
+              },
               titleAttr: 'PDF'
             }
         ],
