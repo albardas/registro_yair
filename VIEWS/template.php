@@ -12,12 +12,12 @@
 ?>
 <?php
 if (!isset($_SESSION['id_user'])) {
-    echo'<script>window.location.href = "/y/login.php";</script>';
+    echo'<script>window.location.href = "/registro_yair/login.php";</script>';
 } ?>
 
  <?php if (array_key_exists('logout', $_GET)) { 
     session_unset();
-    echo '<script>window.location.href = "/y/login.php";</script>';
+    echo '<script>window.location.href = "/registro_yair/login.php";</script>';
 } ?>
 <!DOCTYPE html>
 <html>
@@ -50,7 +50,7 @@ if (!isset($_SESSION['id_user'])) {
 
         <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
         <link href="<?=URL?>VIEWS/resources/CSS/themes/all-themes.css" rel="stylesheet" />
-        
+        <link rel="stylesheet" href="<?= URL ?>VIEWS/resources/CSS/bootstrap-select.min.css">
         <!-- Font Awesome 4.7 -->
         <link rel="stylesheet" type="text/css" href="<?=URL?>VIEWS/CSS/font-awesome.min.css">
         <!-- Datatables -->
@@ -170,8 +170,10 @@ if (!isset($_SESSION['id_user'])) {
     <script src="<?=URL?>VIEWS/resources/JS/lang.js"></script>
 
     <script type="text/javascript" src="<?=URL?>VIEWS/resources/JS/sweetalert2.all.js"></script>
+    <script src="<?= URL ?>VIEWS/resources/JS/bootstrap-select.min.js"></script>
 
     <script type="text/javascript" src="<?=URL?>VIEWS/resources/JS/user.js"></script>
+    <script type="text/javascript" src="<?= URL ?>VIEWS/resources/JS/assitans.js"></script>
 		
 </body>
 </html>
